@@ -239,7 +239,7 @@ impl Request {
             .await
             .unwrap();
         match resp.status() {
-            StatusCode::CREATED => Ok(resp.json().await.unwrap()),
+            StatusCode::OK => Ok(resp.json().await.unwrap()),
             _ => Err(resp.json().await.unwrap())
         }
     }
