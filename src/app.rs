@@ -31,6 +31,7 @@ impl App {
 
             let mut buf = String::new();
             io::stdin().read_line(&mut buf).unwrap();
+            buf = buf.trim().to_string();
             let mut strs = buf.split(" ");
             let res = match strs.next() {
                 Some(o) => match Command::new(&o) {
@@ -78,6 +79,7 @@ impl App {
             loop {
                 let mut buf = String::new();
                 io::stdin().read_line(&mut buf).unwrap();
+                buf = buf.trim().to_string();
                 let mut strs = buf.split(" ");
                 let res = match strs.next() {
                     Some(o) => match Command::new(&o) {
@@ -96,11 +98,9 @@ impl App {
                                 Err(e)
                             }
                         }
-                        Command::LogOut => match self.sign_up(strs.next()).await {
-                            Ok(_) => break,
-                            Err(e) => {
-                                Err(e)
-                            }
+                        Command::LogOut => {
+                            self.user_id = None;
+                            break;
                         }
                         Command::Stop => {
                             return;
