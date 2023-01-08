@@ -21,7 +21,7 @@ pub struct UpdatedUser {
     pub name: Option<String>
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Group {
     pub id: i32,
     pub name: String,
@@ -48,7 +48,7 @@ pub struct PartialMember {
     pub is_admin: bool,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct NamedMember {
     pub id: i32,
     pub name: String,

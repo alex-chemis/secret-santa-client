@@ -1,3 +1,4 @@
+use serde_json;
 use std::{io};
 
 use crate::{
@@ -93,6 +94,10 @@ impl App {
                         Command::UnadminSelf => self.unadmin_self(strs.next()).await,
                         Command::Allocate => self.allocate(strs.next()).await,
                         Command::Recipient => self.recipient(strs.next()).await,
+                        Command::ListGroups => self.list_groups().await,
+                        Command::RetrieveGroup => self.retrieve_group(strs.next()).await,
+                        Command::ListGroupAdmins => self.list_group_admins(strs.next()).await,
+                        Command::ListGroupMembers => self.list_group_members(strs.next()).await,
                         Command::DestroyUser => match self.destroy_self().await {
                             Ok(_) => break,
                             Err(e) => {
@@ -351,6 +356,61 @@ impl App {
             Err(e) => Err(e.message)
         }
     }
+
+    async fn list_groups(&mut self) -> Result<String, String> {
+        let ret = self.request.list_groups().await;
+        match ret {
+            Ok(o) => Ok(serde_json::to_string_pretty(&o).unwrap()),
+            Err(e) => Err(e.message)
+        }
+    }
+
+    async fn retrieve_group(&mut self, arg: Option<&str>) -> Result<String, String> {
+        let id = match arg {
+            Some(s) => match s.trim().parse::<i32>() {
+                Ok(o) => o,
+                Err(e) => return Err(e.to_string())
+            }
+            None => return Err("Not enough arguments".to_string())
+        };
+        let ret = self.request.retrieve_group(id).await;
+        match ret {
+            Ok(o) => Ok(serde_json::to_string_pretty(&o).unwrap()),
+            Err(e) => Err(e.message)
+        }
+    }
+
+    async fn list_group_admins(&mut self, arg: Option<&str>) -> Result<String, String> {
+        let id = match arg {
+            Some(s) => match s.trim().parse::<i32>() {
+                Ok(o) => o,
+                Err(e) => return Err(e.to_string())
+            }
+            None => return Err("Not enough arguments".to_string())
+        };
+        let ret = self.request.list_group_admins(id).await;
+        match ret {
+            Ok(o) => Ok(serde_json::to_string_pretty(&o).unwrap()),
+            Err(e) => Err(e.message)
+        }
+    }
+
+    async fn list_group_members(&mut self, arg: Option<&str>) -> Result<String, String> {
+        let id = match arg {
+            Some(s) => match s.trim().parse::<i32>() {
+                Ok(o) => o,
+                Err(e) => return Err(e.to_string())
+            }
+            None => return Err("Not enough arguments".to_string())
+        };
+        let ret = self.request.list_group_members(id).await;
+        match ret {
+            Ok(o) => Ok(serde_json::to_string_pretty(&o).unwrap()),
+            Err(e) => Err(e.message)
+        }
+    }
+
+
 
 
 }
