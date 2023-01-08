@@ -137,7 +137,7 @@ impl App {
         match ret {
             Ok(o) => {
                 self.user_id = Some(o.id);
-                Ok(format!("Your id: {}", o.id).to_string())
+                Ok(format!("Hello, {}. Your id: {}", o.name, o.id).to_string())
             }
             Err(e) => Err(e.message)
         }
@@ -155,7 +155,7 @@ impl App {
         match ret {
             Ok(o) => {
                 self.user_id = Some(o.id);
-                Ok(format!("Your id: {}", o.id).to_string())
+                Ok(format!("Hello, {}. Your id: {}", o.name, o.id).to_string())
             }
             Err(e) => Err(e.message)
         }
@@ -170,7 +170,7 @@ impl App {
         match ret {
             Ok(o) => {
                 self.user_id = Some(o.id);
-                Ok(format!("Your id: {}", o.id).to_string())
+                Ok(format!("Name has been updated").to_string())
             }
             Err(e) => Err(e.message)
         }
@@ -198,7 +198,7 @@ impl App {
         ).await;
         match ret {
             Ok(o) => {
-                Ok(format!("Your group id: {}", o.id).to_string())
+                Ok(format!("Group {} was created. Group id: {}", o.name, o.id).to_string())
             }
             Err(e) => Err(e.message)
         }
@@ -238,7 +238,7 @@ impl App {
         ).await;
         match ret {
             Ok(o) => {
-                Ok(format!("You join to group id:{}. Your group id: {}", id, o.id).to_string())
+                Ok(format!("You join to group id:{}. Your member id: {}", id, o.id).to_string())
             }
             Err(e) => Err(e.message)
         }
@@ -286,7 +286,7 @@ impl App {
         ).await;
         match ret {
             Ok(_) => {
-                Ok(format!("You have given the member:{member_id} admin rights:").to_string())
+                Ok(format!("You have given the member id:{member_id} admin rights:").to_string())
             }
             Err(e) => Err(e.message)
         }

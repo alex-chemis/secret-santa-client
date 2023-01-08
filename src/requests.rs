@@ -6,14 +6,14 @@ use crate::{
 
 pub struct Request {
     client: Client,
-    host: String
+    url: String
 }
 
 impl Request {
-    pub fn new(client: Client, host: String) -> Request {
+    pub fn new(client: Client, url: String) -> Request {
         Request {
             client: client,
-            host: host
+            url: url
         }
     }
 
@@ -22,7 +22,7 @@ impl Request {
         id: i32
     ) -> Result<User, ErrorResponse> {
         let resp = self.client
-            .get(format!("{}/users/{}", self.host, id))
+            .get(format!("{}/users/{}", self.url, id))
             .send()
             .await
             .unwrap();
@@ -37,7 +37,7 @@ impl Request {
         user: &NewUser
     ) -> Result<User, ErrorResponse> {
         let resp = self.client
-            .post(format!("{}/users", self.host))
+            .post(format!("{}/users", self.url))
             .json(user)
             .send()
             .await
@@ -53,7 +53,7 @@ impl Request {
         user: &UpdatedUser
     ) -> Result<User, ErrorResponse> {
         let resp = self.client
-            .patch(format!("{}/users", self.host))
+            .patch(format!("{}/users", self.url))
             .json(user)
             .send()
             .await
@@ -69,7 +69,7 @@ impl Request {
         id: i32,
     ) -> Result<(), ErrorResponse> {
         let resp = self.client
-            .delete(format!("{}/users/{}", self.host, id))
+            .delete(format!("{}/users/{}", self.url, id))
             .send()
             .await
             .unwrap();
@@ -85,7 +85,7 @@ impl Request {
         group: &NewGroup
     ) -> Result<Group, ErrorResponse> {
         let resp = self.client
-            .post(format!("{}/users/{}/groups", self.host, user_id))
+            .post(format!("{}/users/{}/groups", self.url, user_id))
             .json(group)
             .send()
             .await
@@ -102,7 +102,7 @@ impl Request {
         group_id: i32
     ) -> Result<(), ErrorResponse> {
         let resp = self.client
-            .delete(format!("{}/users/{}/groups/{}", self.host, user_id, group_id))
+            .delete(format!("{}/users/{}/groups/{}", self.url, user_id, group_id))
             .send()
             .await
             .unwrap();
@@ -118,7 +118,7 @@ impl Request {
         group_id: i32,
     ) -> Result<Member, ErrorResponse> {
         let resp = self.client
-            .put(format!("{}/users/{}/groups/{}/join", self.host, user_id, group_id))
+            .put(format!("{}/users/{}/groups/{}/join", self.url, user_id, group_id))
             .send()
             .await
             .unwrap();
@@ -134,7 +134,7 @@ impl Request {
         group_id: i32,
     ) -> Result<(), ErrorResponse> {
         let resp = self.client
-            .put(format!("{}/users/{}/groups/{}/leave", self.host, user_id, group_id))
+            .put(format!("{}/users/{}/groups/{}/leave", self.url, user_id, group_id))
             .send()
             .await
             .unwrap();
@@ -152,8 +152,8 @@ impl Request {
     ) -> Result<Member, ErrorResponse> {
         let resp = self.client
             .put(format!(
-                "{}/users/{}/groups/{}/members/{}/unadmin",
-                self.host,
+                "{}/users/{}/groups/{}/members/{}/admin",
+                self.url,
                 user_id,
                 group_id,
                 member_id
@@ -173,7 +173,7 @@ impl Request {
         group_id: i32,
     ) -> Result<Member, ErrorResponse> {
         let resp = self.client
-            .put(format!("{}/users/{}/groups/{}/unadmin", self.host, user_id, group_id))
+            .put(format!("{}/users/{}/groups/{}/unadmin", self.url, user_id, group_id))
             .send()
             .await
             .unwrap();
@@ -189,7 +189,7 @@ impl Request {
         group_id: i32,
     ) -> Result<(), ErrorResponse> {
         let resp = self.client
-            .put(format!("{}/users/{}/groups/{}/allocate", self.host, user_id, group_id))
+            .put(format!("{}/users/{}/groups/{}/allocate", self.url, user_id, group_id))
             .send()
             .await
             .unwrap();
@@ -205,7 +205,7 @@ impl Request {
         group_id: i32,
     ) -> Result<NamedMember, ErrorResponse> {
         let resp = self.client
-            .get(format!("{}/users/{}/groups/{}/recipient", self.host, user_id, group_id))
+            .get(format!("{}/users/{}/groups/{}/recipient", self.url, user_id, group_id))
             .send()
             .await
             .unwrap();
@@ -219,7 +219,7 @@ impl Request {
         &mut self,
     ) -> Result<Vec<Group>, ErrorResponse> {
         let resp = self.client
-            .get(format!("{}/groups", self.host))
+            .get(format!("{}/groups", self.url))
             .send()
             .await
             .unwrap();
@@ -234,7 +234,7 @@ impl Request {
         id: i32
     ) -> Result<Group, ErrorResponse> {
         let resp = self.client
-            .get(format!("{}/groups/{}", self.host, id))
+            .get(format!("{}/groups/{}", self.url, id))
             .send()
             .await
             .unwrap();
@@ -249,7 +249,7 @@ impl Request {
         id: i32
     ) -> Result<Vec<NamedMember>, ErrorResponse> {
         let resp = self.client
-            .get(format!("{}/groups/{}/admins", self.host, id))
+            .get(format!("{}/groups/{}/admins", self.url, id))
             .send()
             .await
             .unwrap();
@@ -264,7 +264,7 @@ impl Request {
         id: i32
     ) -> Result<Vec<NamedMember>, ErrorResponse> {
         let resp = self.client
-            .get(format!("{}/groups/{}/members", self.host, id))
+            .get(format!("{}/groups/{}/members", self.url, id))
             .send()
             .await
             .unwrap();
