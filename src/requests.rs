@@ -205,7 +205,7 @@ impl Request {
         group_id: i32,
     ) -> Result<NamedMember, ErrorResponse> {
         let resp = self.client
-            .put(format!("{}/users/{}/groups/{}/allocate", self.host, user_id, group_id))
+            .get(format!("{}/users/{}/groups/{}/recipient", self.host, user_id, group_id))
             .send()
             .await
             .unwrap();

@@ -25,7 +25,7 @@ impl App {
         
         loop {
             println!("commands:");
-            println!("\tsign-in <user_name>");
+            println!("\tsign-up <user_name>");
             println!("\tlog-in <user_id>");
             println!("\tstop");
 
@@ -60,21 +60,22 @@ impl App {
             }
 
             println!("commands:");
-            println!("\tupdate_self <user_name>");
-            println!("\tdestroy_self");
-            println!("\tcreate_group <group_name>");
-            println!("\tdestroy_group <group_id>");
-            println!("\tjoin_group <group_id>");
-            println!("\tleave_group <group_id>");
-            println!("\tadmin_member <group_id> <member_id>");
-            println!("\tunadmin_self <group_id>");
+            println!("\tupdate-self <user_name>");
+            println!("\tdelete-self");
+            println!("\tcreate <group_name>");
+            println!("\tdelete <group_id>");
+            println!("\tjoin <group_id>");
+            println!("\tleave <group_id>");
+            println!("\tadmin <group_id> <member_id>");
+            println!("\tunadmin-self <group_id>");
             println!("\tallocate <group_id>");
             println!("\trecipient <group_id>");
-            println!("\tlist_groups <group_id>");
-            println!("\tretrieve_group <group_id>");
-            println!("\tlist_group_admins <group_id>");
-            println!("\tlist_group_members <group_id>");
+            println!("\tgroups");
+            println!("\tretrieve <group_id>");
+            println!("\tadmins <group_id>");
+            println!("\tmembers <group_id>");
             println!("\tlog-out");
+            println!("\tstop");
             
             loop {
                 let mut buf = String::new();
@@ -345,7 +346,7 @@ impl App {
         ).await;
         match ret {
             Ok(o) => {
-                Ok(format!("Your recipient: group_id: \"{}\" name: \"{}\"", o.id, o.name).to_string())
+                Ok(format!("Your recipient: member_id: \"{}\" name: \"{}\"", o.id, o.name).to_string())
             }
             Err(e) => Err(e.message)
         }
