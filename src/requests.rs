@@ -10,7 +10,7 @@ pub struct Request {
 }
 
 impl Request {
-    fn new(client: Client, host: String) -> Request {
+    pub fn new(client: Client, host: String) -> Request {
         Request {
             client: client,
             host: host
@@ -27,12 +27,12 @@ impl Request {
             .await
             .unwrap();
         match resp.status() {
-            StatusCode::CREATED => Ok(resp.json().await.unwrap()),
+            StatusCode::OK => Ok(resp.json().await.unwrap()),
             _ => Err(resp.json().await.unwrap())
         }
     }
 
-    pub async fn crate_user(
+    pub async fn create_user(
         &mut self,
         user: &NewUser
     ) -> Result<User, ErrorResponse> {
@@ -85,7 +85,7 @@ impl Request {
         group: &NewGroup
     ) -> Result<Group, ErrorResponse> {
         let resp = self.client
-            .post(format!("{}/users/{}", self.host, user_id))
+            .post(format!("{}/users/{}/groups", self.host, user_id))
             .json(group)
             .send()
             .await
@@ -102,7 +102,7 @@ impl Request {
         group_id: i32
     ) -> Result<(), ErrorResponse> {
         let resp = self.client
-            .delete(format!("{}/users/{}/group/{}", self.host, user_id, group_id))
+            .delete(format!("{}/users/{}/groups/{}", self.host, user_id, group_id))
             .send()
             .await
             .unwrap();
@@ -118,7 +118,7 @@ impl Request {
         group_id: i32,
     ) -> Result<Member, ErrorResponse> {
         let resp = self.client
-            .put(format!("{}/users/{}/group/{}/join", self.host, user_id, group_id))
+            .put(format!("{}/users/{}/groups/{}/join", self.host, user_id, group_id))
             .send()
             .await
             .unwrap();
@@ -134,12 +134,12 @@ impl Request {
         group_id: i32,
     ) -> Result<(), ErrorResponse> {
         let resp = self.client
-            .put(format!("{}/users/{}/group/{}/leave", self.host, user_id, group_id))
+            .put(format!("{}/users/{}/groups/{}/leave", self.host, user_id, group_id))
             .send()
             .await
             .unwrap();
         match resp.status() {
-            StatusCode::CREATED => Ok(resp.json().await.unwrap()),
+            StatusCode::NO_CONTENT => Ok(resp.json().await.unwrap()),
             _ => Err(resp.json().await.unwrap())
         }
     }
@@ -152,7 +152,7 @@ impl Request {
     ) -> Result<Member, ErrorResponse> {
         let resp = self.client
             .put(format!(
-                "{}/users/{}/group/{}/member/{}/unadmin",
+                "{}/users/{}/groups/{}/members/{}/unadmin",
                 self.host,
                 user_id,
                 group_id,
@@ -173,12 +173,12 @@ impl Request {
         group_id: i32,
     ) -> Result<Member, ErrorResponse> {
         let resp = self.client
-            .put(format!("{}/users/{}/group/{}/unadmin", self.host, user_id, group_id))
+            .put(format!("{}/users/{}/groups/{}/unadmin", self.host, user_id, group_id))
             .send()
             .await
             .unwrap();
         match resp.status() {
-            StatusCode::CREATED => Ok(resp.json().await.unwrap()),
+            StatusCode::OK => Ok(resp.json().await.unwrap()),
             _ => Err(resp.json().await.unwrap())
         }
     }
@@ -189,7 +189,7 @@ impl Request {
         group_id: i32,
     ) -> Result<(), ErrorResponse> {
         let resp = self.client
-            .put(format!("{}/users/{}/group/{}/allocate", self.host, user_id, group_id))
+            .put(format!("{}/users/{}/groups/{}/allocate", self.host, user_id, group_id))
             .send()
             .await
             .unwrap();
@@ -205,12 +205,12 @@ impl Request {
         group_id: i32,
     ) -> Result<NamedMember, ErrorResponse> {
         let resp = self.client
-            .put(format!("{}/users/{}/group/{}/allocate", self.host, user_id, group_id))
+            .put(format!("{}/users/{}/groups/{}/allocate", self.host, user_id, group_id))
             .send()
             .await
             .unwrap();
         match resp.status() {
-            StatusCode::NO_CONTENT => Ok(resp.json().await.unwrap()),
+            StatusCode::OK => Ok(resp.json().await.unwrap()),
             _ => Err(resp.json().await.unwrap())
         }
     }
